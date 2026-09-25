@@ -1,8 +1,8 @@
 import { BaanerContainer } from './style';
 
-interface BannerProps {
-  name: string;
-  country: string;
+export interface BannerProps {
+  name?: string;
+  country?: string;
   className?: string;
 }
 

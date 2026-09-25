@@ -36,6 +36,9 @@ export const CardEdit = styled(Card)`
   background-color: ${colors.orange};
   color: ${colors.white};
   height: 338px;
+  img {
+    height: 10.375rem;
+  }
 `;
 export const ButonEdit = styled(Button)`
   color: ${colors.orange};
@@ -51,4 +54,70 @@ export const ButonEdit = styled(Button)`
 
 export const HeaderEdit = styled(Header)`
   height: 11.625rem;
+`;
+
+export const Modal = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.73);
+`;
+
+export const ModalContainer = styled.div`
+  padding: 2rem;
+  width: 100%;
+  height: 21.5rem;
+  background-color: ${colors.orange};
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  color: ${colors.white};
+  font-family: unset;
+
+  div {
+    display: flex;
+    gap: 24px;
+
+    img {
+      width: 280px;
+      object-fit: cover;
+    }
+  }
+`;
+
+export const Fechar = styled.img`
+  position: absolute;
+  top: 8px;
+  right: 8px;
+`;
+
+export const ContentModal = styled.div`
+  display: flex;
+  flex-direction: column;
+  h3 {
+    font-size: 18px;
+    font-weight: 900;
+    font-style: black;
+  }
+  h5 {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    font-style: normal;
+  }
+  button {
+    background-color: ${colors.orangeCard};
+    color: ${colors.orange};
+    height: 24px;
+    width: 218px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+  }
 `;

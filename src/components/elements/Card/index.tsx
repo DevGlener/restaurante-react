@@ -33,10 +33,10 @@ export default function Card({
           <h3>{title}</h3>
           <div>
             <h3>{nota}</h3>
-            {icon && <img src={icon} alt={`Ícone de ${title}`} />}
+            {icon && <img src="{icon}" alt={'imagem do icone'} />}
           </div>
         </CardTitle>
-        <p>{children}</p>
+        <span>{children}</span>
       </CardInfos>
     </CardContainer>
   );

@@ -1,5 +1,6 @@
 import { Banner } from './style';
 import logo from '../../../assets/images/logo.svg';
+import { Link } from 'react-router-dom';
 
 interface HeaderProps {
   quantity?: number;
@@ -12,7 +13,9 @@ function Header({ quantity, text, name }: HeaderProps) {
     <Banner>
       <div className="container">
         <h3>{name}</h3>
-        <img src={logo} alt={`ìmagem da ${logo}`} />
+        <Link to={'/'}>
+          <img src={logo} alt={`ìmagem da ${logo}`} />
+        </Link>
         <h3>
           {quantity}
           {text}

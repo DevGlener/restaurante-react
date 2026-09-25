@@ -10,6 +10,12 @@ export const CardContainer = styled.div`
   flex-direction: column;
   column-gap: 0.5rem;
   position: relative;
+  img {
+    max-width: 29.5rem;
+    width: 100%;
+    height: 13.5rem;
+    object-fit: cover;
+  }
 `;
 
 export const CardTags = styled.div`

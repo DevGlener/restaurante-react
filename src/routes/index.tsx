@@ -8,7 +8,7 @@ const Rotas = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: 'perfil',
+    path: 'perfil/:id',
     element: <Profile />,
   },
 ]);
