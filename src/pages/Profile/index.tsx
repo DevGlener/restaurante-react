@@ -61,7 +61,7 @@ function Profile() {
   return (
     <ProfileContainer>
       <Header name={'Restaurantes'} quantity={itens.length} text={' Produto(s) no Carrinho'} />
-      <Banner country={'italiana'} name={'La Dolce Vita Trattoria'} />
+      <Banner />
       <div className="container">
         <ListCards>
           {restaurante.cardapio.map((item) => (
