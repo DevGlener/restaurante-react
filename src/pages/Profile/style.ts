@@ -2,13 +2,14 @@ import styled from 'styled-components';
 import Card from '../../components/elements/Card';
 import colors from '../../styles/colors';
 import Button from '../../components/elements/Button';
-import { BaanerContainer } from '../../components/elements/Banner/style';
+
 import Header from '../../components/ui/Header';
+import { ContainerBanner } from '../../components/elements/Banner/style';
 
 export const ProfileContainer = styled.div`
   position: relative;
 
-  ${BaanerContainer} {
+  ${ContainerBanner} {
     position: absolute;
     top: 10.125rem;
     left: 0;

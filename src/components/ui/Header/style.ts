@@ -21,6 +21,7 @@ export const Banner = styled.div`
 
   h3 {
     color: ${colors.orange};
+    cursor: pointer;
   }
 
   p {

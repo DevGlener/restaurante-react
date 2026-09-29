@@ -1,11 +1,9 @@
 import styled from 'styled-components';
-import BannerImg from '../../../assets/images/BannerImg.png';
+
 import colors from '../../../styles/colors';
 
-export const BaanerContainer = styled.div`
+export const ContainerBanner = styled.div`
   position: relative;
-
-  background-image: url(${BannerImg});
   background-repeat: no-repeat;
   background-size: cover;
   height: 17.5rem;

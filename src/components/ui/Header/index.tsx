@@ -1,6 +1,8 @@
 import { Banner } from './style';
 import logo from '../../../assets/images/logo.svg';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { open } from '../../../store/reducers/carrinho';
 
 interface HeaderProps {
   quantity?: number;
@@ -9,6 +11,12 @@ interface HeaderProps {
 }
 
 function Header({ quantity, text, name }: HeaderProps) {
+  const dispatch = useDispatch();
+
+  function abraModalCarrinho() {
+    dispatch(open());
+  }
+
   return (
     <Banner>
       <div className="container">
@@ -16,7 +24,7 @@ function Header({ quantity, text, name }: HeaderProps) {
         <Link to={'/'}>
           <img src={logo} alt={`ìmagem da ${logo}`} />
         </Link>
-        <h3>
+        <h3 onClick={abraModalCarrinho}>
           {quantity}
           {text}
         </h3>

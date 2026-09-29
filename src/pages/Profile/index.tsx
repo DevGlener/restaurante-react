@@ -1,12 +1,15 @@
-import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import type { RootReducer } from '../../store';
+
+import type { restaurantes, itensCardapio } from '../../types/restaurantes';
 
 import Banner from '../../components/elements/Banner';
 import Footer from '../../components/ui/Footer';
 import Header from '../../components/ui/Header';
 
-// import Pizza from '../../assets/images/esfira.png';
 import close from '../../assets/images/close.png';
 
 import {
@@ -20,13 +23,12 @@ import {
   ContentModal,
 } from './style';
 
-import type { restaurantes, itensCardapio } from '../../types/restaurantes';
-
 function Profile() {
-  const [restaurante, setRestaurante] = useState<restaurantes>();
+  const itens = useSelector((state: RootReducer) => state.carrinho.itens);
 
   const { id } = useParams();
 
+  const [restaurante, setRestaurante] = useState<restaurantes>();
   const [abraModal, setAbraModal] = useState(false);
   const [itemSelecionado, setItemSelecionado] = useState<itensCardapio>();
 
@@ -58,7 +60,7 @@ function Profile() {
 
   return (
     <ProfileContainer>
-      <Header name={'Restaurantes'} quantity={0} text={' Produto(s) no Carrinho'} />
+      <Header name={'Restaurantes'} quantity={itens.length} text={' Produto(s) no Carrinho'} />
       <Banner country={'italiana'} name={'La Dolce Vita Trattoria'} />
       <div className="container">
         <ListCards>
@@ -97,3 +99,8 @@ function Profile() {
   );
 }
 export default Profile;
+
+// const valorTotal = itens.reduce((acumulador, item) => {
+//   acumulador += item.cardapio[0].preco;
+//   return acumulador;
+// }, 0);

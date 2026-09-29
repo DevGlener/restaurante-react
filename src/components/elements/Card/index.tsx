@@ -2,8 +2,8 @@ import type { ReactNode } from 'react';
 import { CardContainer, CardTags, CardTitle, TagCustom, CardInfos } from './style';
 
 export interface CardProps {
-  title: string;
-  image: string;
+  title?: string;
+  image?: string;
   icon?: string;
   nota?: number;
   infos?: string[];
