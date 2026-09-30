@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+
 import type { RootReducer } from '../../store';
 
-import type { restaurantes, itensCardapio } from '../../types/restaurantes';
+import { adicionar, abrirModal, fecharModal } from '../../store/reducers/carrinho';
+import { getDescription } from '../../utils/textSlice';
+import { useGetCardapioQuery } from '../../services/api';
 
 import Banner from '../../components/elements/Banner';
 import Footer from '../../components/ui/Footer';
@@ -24,38 +25,24 @@ import {
 } from './style';
 
 function Profile() {
-  const itens = useSelector((state: RootReducer) => state.carrinho.itens);
-
   const { id } = useParams();
+  const dispatch = useDispatch();
 
-  const [restaurante, setRestaurante] = useState<restaurantes>();
-  const [abraModal, setAbraModal] = useState(false);
-  const [itemSelecionado, setItemSelecionado] = useState<itensCardapio>();
+  const { data: restaurante } = useGetCardapioQuery(id!);
 
-  function abrirModal(item: itensCardapio) {
-    setItemSelecionado(item);
-    setAbraModal(true);
-  }
+  const { itens, modalEstaAberto, itemSelecionado } = useSelector(
+    (state: RootReducer) => state.carrinho,
+  );
 
-  function fechaModal() {
-    setAbraModal(false);
-  }
-
-  useEffect(() => {
-    fetch(`https://api-ebac.vercel.app/api/efood/restaurantes/${id}`)
-      .then((res) => res.json())
-      .then((res) => setRestaurante(res));
-  }, [id]);
+  const adicionarAoCarrinho = () => {
+    if (itemSelecionado) {
+      dispatch(adicionar(itemSelecionado));
+      dispatch(fecharModal());
+    }
+  };
 
   if (!restaurante) {
     return <h3>carregando ...</h3>;
-  }
-
-  function getDescription(description: string) {
-    if (description.length > 120) {
-      return description.slice(0, 122) + '...';
-    }
-    return description;
   }
 
   return (
@@ -68,26 +55,29 @@ function Profile() {
             <li key={item.id}>
               <CardEdit image={item.foto} title={item.nome}>
                 {getDescription(item.descricao)}
-                <ButonEdit onClick={() => abrirModal(item)} type="button">
-                  Adicionar ao carrinho
+
+                <ButonEdit onClick={() => dispatch(abrirModal(item))} type="button">
+                  Mais detalhes
                 </ButonEdit>
               </CardEdit>
             </li>
           ))}
         </ListCards>
       </div>
-      {abraModal && itemSelecionado && (
-        <Modal>
-          <ModalContainer className="container">
-            <Fechar onClick={fechaModal} src={close} alt="icone de fechar " />
+
+      {modalEstaAberto && itemSelecionado && (
+        <Modal onClick={() => dispatch(fecharModal())}>
+          <ModalContainer className="container" onClick={(e) => e.stopPropagation()}>
+            <Fechar onClick={() => dispatch(fecharModal())} src={close} alt="icone de fechar" />
             <div>
-              <img src={itemSelecionado.foto} alt="imagem da pizza" />
+              <img src={itemSelecionado.foto} alt={itemSelecionado.nome} />
               <ContentModal>
                 <h3>{itemSelecionado.nome}</h3>
                 <h5>{itemSelecionado.descricao}</h5>
                 <p>{itemSelecionado.porcao}</p>
-                <button>
-                  Adicionar ao Carrinho - R$ <span>${itemSelecionado.preco.toFixed(2)}</span>
+
+                <button type="button" onClick={adicionarAoCarrinho}>
+                  Adicionar ao Carrinho - R$ <span>{itemSelecionado.preco.toFixed(2)}</span>
                 </button>
               </ContentModal>
             </div>
@@ -98,9 +88,5 @@ function Profile() {
     </ProfileContainer>
   );
 }
-export default Profile;
 
-// const valorTotal = itens.reduce((acumulador, item) => {
-//   acumulador += item.cardapio[0].preco;
-//   return acumulador;
-// }, 0);
+export default Profile;

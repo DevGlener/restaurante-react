@@ -32,6 +32,13 @@ export const Sidebar = styled.aside`
   height: 101.5rem;
   z-index: 1;
   padding: 2rem 0.5rem 0 0.5rem;
+  div {
+    max-height: 80vh;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `;
 
 export const CardCar = styled.div`
@@ -65,6 +72,7 @@ export const LixeiraImg = styled.img`
   cursor: pointer;
 `;
 export const Precos = styled.div`
+  margin-top: 8px;
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;

@@ -1,30 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useGetEfoodQuery } from '../../services/api';
+
+import { getDescription } from '../../utils/textSlice';
 
 import { ListCards, ButtonEdit } from './style';
 import Footer from '../../components/ui/Footer';
 import Header from '../../components/ui/Header';
 import Card from '../../components/elements/Card';
 
-import type { restaurantes } from '../../types/restaurantes';
-
 function Home() {
-  const [intensRestaurantes, setItensRestaurantes] = useState<restaurantes[]>([]);
-
-  useEffect(() => {
-    fetch('https://api-ebac.vercel.app/api/efood/restaurantes')
-      .then((res) => res.json())
-      .then((res) => setItensRestaurantes(res));
-  }, []);
+  const { data: intensRestaurantes } = useGetEfoodQuery();
 
   if (!intensRestaurantes) {
     return <h3>carregando ...</h3>;
-  }
-
-  function getDescription(description: string) {
-    if (description.length > 280) {
-      return description.slice(0, 250) + '...';
-    }
-    return description;
   }
 
   return (
@@ -43,7 +30,7 @@ function Home() {
                   nota={item.avaliacao}
                   infos={[...(item.destacado ? ['Destaque do dia'] : []), item.tipo]}
                 >
-                  {getDescription(item.descricao)}
+                  {getDescription(item.descricao, 280)}
 
                   <ButtonEdit type={'link'} to={`/perfil/${item.id}`}>
                     Saiba mais
