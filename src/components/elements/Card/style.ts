@@ -5,7 +5,7 @@ import { TagContainer } from '../Tags/style';
 export const CardContainer = styled.div`
   border: 0.0625rem solid ${colors.orange};
   color: ${colors.orange};
-  height: 24.875rem;
+  /* height: 24.875rem; */
   display: flex;
   flex-direction: column;
   column-gap: 0.5rem;

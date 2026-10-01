@@ -5,6 +5,7 @@ import Button from '../../components/elements/Button';
 
 import Header from '../../components/ui/Header';
 import { ContainerBanner } from '../../components/elements/Banner/style';
+import { breakpoints } from '../../styles/responsividade';
 
 export const ProfileContainer = styled.div`
   position: relative;
@@ -30,13 +31,24 @@ export const ListCards = styled.ul`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  @media (max-width: ${breakpoints.smartphone}) {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
 `;
 
 export const CardEdit = styled(Card)`
   padding: 0.5rem;
   background-color: ${colors.orange};
   color: ${colors.white};
-  height: 338px;
+
   img {
     height: 10.375rem;
   }
@@ -72,7 +84,7 @@ export const Modal = styled.div`
 export const ModalContainer = styled.div`
   padding: 2rem;
   width: 100%;
-  height: 21.5rem;
+
   background-color: ${colors.orange};
   position: absolute;
   z-index: 1;
@@ -87,6 +99,18 @@ export const ModalContainer = styled.div`
     img {
       width: 280px;
       object-fit: cover;
+    }
+  }
+
+  @media (max-width: ${breakpoints.smartphone}) {
+    div {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      img {
+        width: 100%;
+        height: 100px;
+      }
     }
   }
 `;
@@ -120,5 +144,9 @@ export const ContentModal = styled.div`
     font-size: 14px;
     cursor: pointer;
     border: none;
+
+    @media (max-width: ${breakpoints.smartphone}) {
+      width: 100%;
+    }
   }
 `;

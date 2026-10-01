@@ -11,7 +11,6 @@ export const FooterContainer = styled.div`
 
   p {
     color: ${colors.orange};
-    width: 30rem;
     font-size: 0.625rem;
     font-weight: 400;
     font-family: unset;

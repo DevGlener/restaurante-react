@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { breakpoints } from './responsividade';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -10,10 +11,15 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    width: 100%;
+
     .container {
-      width: 64rem;
+      max-width: 64rem;
+      width: 100%;
       margin: 0 auto;
+
+      @media (max-width:${breakpoints.desktop}){
+        width: 80% ;
+      }
     }
   }
 `;

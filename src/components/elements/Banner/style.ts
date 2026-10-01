@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import colors from '../../../styles/colors';
+import { breakpoints } from '../../../styles/responsividade';
 
 export const ContainerBanner = styled.div`
   position: relative;
@@ -26,5 +27,9 @@ export const ContainerBanner = styled.div`
     height: 100%;
     font-size: 32px;
     color: ${colors.white};
+  }
+
+  @media (max-width: ${breakpoints.smartphone}) {
+    display: none;
   }
 `;
