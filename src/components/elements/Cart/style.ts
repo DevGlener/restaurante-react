@@ -27,12 +27,14 @@ export const CartContainer = styled.div`
 `;
 
 export const Sidebar = styled.aside`
+  position: relative;
   background-color: ${colors.orange};
   width: 22.5rem;
-  height: 101.5rem;
-  z-index: 1;
+  height: 100vh;
+  z-index: 2;
   padding: 2rem 0.5rem 0 0.5rem;
-  div {
+
+  > div {
     max-height: 80vh;
     overflow-y: auto;
     &::-webkit-scrollbar {
@@ -83,8 +85,12 @@ export const CartButton = styled(Button)`
   background-color: ${colors.orangeCard};
   color: ${colors.orange};
   width: 100%;
+  font-size: 14px;
+  font-weight: bold;
   height: 24px;
   text-align: center;
   cursor: pointer;
   padding: 4px 0;
+  border: none;
+  margin-bottom: 8px;
 `;

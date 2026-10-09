@@ -1,8 +1,9 @@
+import type { ReactNode } from 'react';
 import { ButtonContainer, ButtonLink } from './style';
 
 export interface ButtonProps {
   type: 'link' | 'button';
-  children: string;
+  children: ReactNode;
   to?: string;
   onClick?: () => void;
   className?: string;
