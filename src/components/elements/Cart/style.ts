@@ -35,7 +35,7 @@ export const Sidebar = styled.aside`
   padding: 2rem 0.5rem 0 0.5rem;
 
   > div {
-    max-height: 80vh;
+    max-height: 85vh;
     overflow-y: auto;
     &::-webkit-scrollbar {
       display: none;

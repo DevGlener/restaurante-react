@@ -52,7 +52,6 @@ export const InputGroup = styled.div<InputGroups>`
     margin-top: 8px;
     display: block;
     width: 100%;
-    border: none;
     padding: 0 8px;
     height: 32px;
     outline: none;

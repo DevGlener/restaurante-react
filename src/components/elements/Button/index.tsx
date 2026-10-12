@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { ButtonContainer, ButtonLink } from './style';
 
 export interface ButtonProps {
-  type: 'link' | 'button';
+  type: 'link' | 'button' | 'submit';
   children: ReactNode;
   to?: string;
   onClick?: () => void;
