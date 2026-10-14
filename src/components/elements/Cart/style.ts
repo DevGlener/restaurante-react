@@ -34,14 +34,14 @@ export const Sidebar = styled.aside`
   z-index: 2;
   padding: 2rem 0.5rem 0 0.5rem;
 
-  /* .textoCarrinhoVazio {
+  .empty-text {
     text-align: center;
     font-size: 16px;
     font-weight: bold;
     color: ${colors.white};
     line-height: 22px;
     font-family: unset;
-  } */
+  }
 
   > div {
     max-height: 85vh;
