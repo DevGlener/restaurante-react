@@ -1,9 +1,9 @@
-import { TagContainer } from './style';
+import { TagContainer } from './style'
 
 export interface TagProps {
-  children: string;
+  children: string
 }
 
 export default function Tag({ children }: TagProps) {
-  return <TagContainer>{children}</TagContainer>;
+  return <TagContainer>{children}</TagContainer>
 }

@@ -1,9 +1,9 @@
-import styled from 'styled-components';
-import colors from '../../styles/colors';
+import styled from 'styled-components'
+import colors from '../../styles/colors'
 
 type InputGroups = {
-  maxWidth?: string;
-};
+  maxWidth?: string
+}
 
 export const CheckoutContainer = styled.div`
   width: 100%;
@@ -36,7 +36,7 @@ export const CheckoutContainer = styled.div`
     font-weight: bold;
     margin-bottom: 8px;
   }
-`;
+`
 
 export const InputGroup = styled.div<InputGroups>`
   flex: auto;
@@ -56,12 +56,40 @@ export const InputGroup = styled.div<InputGroups>`
     height: 32px;
     outline: none;
   }
-`;
+  .error {
+    border: 3px solid black;
+    //deixei na cor pret e mais grossa a
+    //borda pq meio que estava impossivel
+    //notar diferenca com o do projeto
+  }
+`
 
 export const Row = styled.div`
   display: flex;
   column-gap: 34px;
   margin-bottom: 8px;
-`;
+`
 
-export const PersonInfo = styled.div``;
+export const PersonInfo = styled.div``
+
+export const OrdemConcluida = styled.div`
+  color: ${colors.white};
+
+  h2 {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  p {
+    margin-top: 16px;
+    line-height: 22px;
+    font-size: 0.875rem;
+    font-weight: normal;
+  }
+  button {
+    margin-top: 24px;
+    color: ${colors.orange};
+    background-color: ${colors.orangeCard};
+    font-size: 14px;
+    font-weight: bold;
+  }
+`

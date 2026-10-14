@@ -1,11 +1,11 @@
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom'
 
-import GlobalStyle from './styles/Globals';
-import Cart from './components/elements/Cart';
+import GlobalStyle from './styles/Globals'
+import Cart from './components/elements/Cart'
 
-import { Provider } from 'react-redux';
-import { store } from './store';
-import Rotas from './routes';
+import { Provider } from 'react-redux'
+import { store } from './store'
+import Rotas from './routes'
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
         <Cart />
       </Provider>
     </BrowserRouter>
-  );
+  )
 }
 
-export default App;
+export default App

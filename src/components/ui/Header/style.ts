@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import Background from '../../../assets/images/background.png';
-import colors from '../../../styles/colors';
-import { breakpoints } from '../../../styles/responsividade';
+import styled from 'styled-components'
+import Background from '../../../assets/images/background.png'
+import colors from '../../../styles/colors'
+import { breakpoints } from '../../../styles/responsividade'
 
 export const Banner = styled.div`
   background-image: url('${Background}');
@@ -40,4 +40,4 @@ export const Banner = styled.div`
   @media (max-width: ${breakpoints.smartphone}) {
     display: none;
   }
-`;
+`

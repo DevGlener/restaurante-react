@@ -1,11 +1,11 @@
-import styled from 'styled-components';
-import Card from '../../components/elements/Card';
-import colors from '../../styles/colors';
-import Button from '../../components/elements/Button';
+import styled from 'styled-components'
+import Card from '../../components/elements/Card'
+import colors from '../../styles/colors'
+import Button from '../../components/elements/Button'
 
-import Header from '../../components/ui/Header';
-import { ContainerBanner } from '../../components/elements/Banner/style';
-import { breakpoints } from '../../styles/responsividade';
+import Header from '../../components/ui/Header'
+import { ContainerBanner } from '../../components/elements/Banner/style'
+import { breakpoints } from '../../styles/responsividade'
 
 export const ProfileContainer = styled.div`
   position: relative;
@@ -25,7 +25,7 @@ export const ProfileContainer = styled.div`
       font-weight: bold;
     }
   }
-`;
+`
 export const ListCards = styled.ul`
   margin: 112px auto 7.5rem auto;
   display: grid;
@@ -42,7 +42,7 @@ export const ListCards = styled.ul`
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-`;
+`
 
 export const CardEdit = styled(Card)`
   padding: 0.5rem;
@@ -52,7 +52,7 @@ export const CardEdit = styled(Card)`
   img {
     height: 10.375rem;
   }
-`;
+`
 export const ButonEdit = styled(Button)`
   color: ${colors.orange};
   background-color: ${colors.orangeCard};
@@ -63,11 +63,11 @@ export const ButonEdit = styled(Button)`
   justify-content: center;
   align-items: center;
   margin-top: 8px;
-`;
+`
 
 export const HeaderEdit = styled(Header)`
   height: 11.625rem;
-`;
+`
 
 export const Modal = styled.div`
   position: fixed;
@@ -79,7 +79,7 @@ export const Modal = styled.div`
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.73);
-`;
+`
 
 export const ModalContainer = styled.div`
   padding: 2rem;
@@ -113,13 +113,13 @@ export const ModalContainer = styled.div`
       }
     }
   }
-`;
+`
 
 export const Fechar = styled.img`
   position: absolute;
   top: 8px;
   right: 8px;
-`;
+`
 
 export const ContentModal = styled.div`
   display: flex;
@@ -149,4 +149,4 @@ export const ContentModal = styled.div`
       width: 100%;
     }
   }
-`;
+`

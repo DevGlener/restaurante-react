@@ -1,22 +1,22 @@
-import { useDispatch, useSelector } from 'react-redux';
-import type { RootReducer } from '../../../store';
-import { CartContainer, Overlay, Sidebar, CardCar, LixeiraImg, Precos, CartButton } from './style';
+import { useDispatch, useSelector } from 'react-redux'
+import type { RootReducer } from '../../../store'
+import { CartContainer, Overlay, Sidebar, CardCar, LixeiraImg, Precos, CartButton } from './style'
 
-import Lixeira from '../../../assets/images/icone-lixeira.png';
-import { close, remover, setEtapa } from '../../../store/reducers/carrinho';
-import Checkout from '../../../pages/Checkout';
+import Lixeira from '../../../assets/images/icone-lixeira.png'
+import { close, remover, setEtapa } from '../../../store/reducers/carrinho'
+import Checkout from '../../../pages/Checkout'
 
 function Cart() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const { isOpen, itens, etapa, total } = useSelector((state: RootReducer) => state.carrinho);
+  const { isOpen, itens, etapa, total } = useSelector((state: RootReducer) => state.carrinho)
 
   function fechaModalCarrinho() {
-    dispatch(close());
+    dispatch(close())
   }
 
   function removerPedido(id: number) {
-    dispatch(remover(id));
+    dispatch(remover(id))
   }
 
   return (
@@ -54,7 +54,7 @@ function Cart() {
         )}
       </Sidebar>
     </CartContainer>
-  );
+  )
 }
 
-export default Cart;
+export default Cart

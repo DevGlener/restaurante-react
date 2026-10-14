@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import colors from '../../../styles/colors';
-import Button from '../Button';
+import styled from 'styled-components'
+import colors from '../../../styles/colors'
+import Button from '../Button'
 
 export const Overlay = styled.div`
   position: absolute;
@@ -10,7 +10,7 @@ export const Overlay = styled.div`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.73);
   z-index: 1;
-`;
+`
 
 export const CartContainer = styled.div`
   position: fixed;
@@ -24,7 +24,7 @@ export const CartContainer = styled.div`
   &.is-open {
     display: flex;
   }
-`;
+`
 
 export const Sidebar = styled.aside`
   position: relative;
@@ -34,6 +34,15 @@ export const Sidebar = styled.aside`
   z-index: 2;
   padding: 2rem 0.5rem 0 0.5rem;
 
+  /* .textoCarrinhoVazio {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: ${colors.white};
+    line-height: 22px;
+    font-family: unset;
+  } */
+
   > div {
     max-height: 85vh;
     overflow-y: auto;
@@ -41,7 +50,7 @@ export const Sidebar = styled.aside`
       display: none;
     }
   }
-`;
+`
 
 export const CardCar = styled.div`
   margin-bottom: 1rem;
@@ -62,7 +71,7 @@ export const CardCar = styled.div`
     height: 5rem;
     object-fit: cover;
   }
-`;
+`
 
 export const LixeiraImg = styled.img`
   position: absolute;
@@ -72,14 +81,14 @@ export const LixeiraImg = styled.img`
   height: 16px;
   object-fit: contain;
   cursor: pointer;
-`;
+`
 export const Precos = styled.div`
   margin-top: 8px;
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
   color: ${colors.orangeCard};
-`;
+`
 export const CartButton = styled(Button)`
   display: block;
   background-color: ${colors.orangeCard};
@@ -93,4 +102,4 @@ export const CartButton = styled(Button)`
   padding: 4px 0;
   border: none;
   margin-bottom: 8px;
-`;
+`

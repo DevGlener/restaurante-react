@@ -1,6 +1,6 @@
-import styled, { css } from 'styled-components';
-import colors from '../../../styles/colors';
-import { Link } from 'react-router-dom';
+import styled, { css } from 'styled-components'
+import colors from '../../../styles/colors'
+import { Link } from 'react-router-dom'
 
 const buttonStyles = css`
   font-size: 0.875rem;
@@ -11,11 +11,11 @@ const buttonStyles = css`
   font-weight: bold;
   border: none;
   cursor: pointer;
-`;
+`
 
 export const ButtonContainer = styled.div`
   ${buttonStyles}
-`;
+`
 
 export const ButtonLink = styled(Link)`
   ${buttonStyles}
@@ -23,4 +23,4 @@ export const ButtonLink = styled(Link)`
   align-items: center;
   justify-content: center;
   text-decoration: none;
-`;
+`

@@ -1,28 +1,28 @@
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom'
 
-import { useGetEfoodQuery } from '../../../services/api';
+import { useGetEfoodQuery } from '../../../services/api'
 
-import { ContainerBanner } from './style';
+import { ContainerBanner } from './style'
 
 function Banner() {
-  const { id } = useParams();
+  const { id } = useParams()
 
-  const { data: opcoes } = useGetEfoodQuery();
+  const { data: opcoes } = useGetEfoodQuery()
 
   if (!opcoes) {
-    return <h3>Carregando...</h3>;
+    return <h3>Carregando...</h3>
   }
 
-  const restauranteList = opcoes.find((item) => item.id === Number(id));
+  const restauranteList = opcoes.find((item) => item.id === Number(id))
 
   if (!restauranteList) {
-    return <h3>Restaurante não encontrado</h3>;
+    return <h3>Restaurante não encontrado</h3>
   }
 
   return (
     <ContainerBanner
       style={{
-        backgroundImage: `url(${restauranteList.capa})`,
+        backgroundImage: `url(${restauranteList.capa})`
       }}
     >
       <div className="container">
@@ -30,7 +30,7 @@ function Banner() {
         <h4>{restauranteList.titulo}</h4>
       </div>
     </ContainerBanner>
-  );
+  )
 }
 
-export default Banner;
+export default Banner

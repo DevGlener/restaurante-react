@@ -3,7 +3,7 @@ const colors = {
   white: '#ffffff',
   black: '#000000',
   orangeCard: '#ffebd9',
-  backgroundP: '#fff8f2',
-};
+  backgroundP: '#fff8f2'
+}
 
-export default colors;
+export default colors

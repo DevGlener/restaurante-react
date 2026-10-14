@@ -1,17 +1,17 @@
-import { useGetEfoodQuery } from '../../services/api';
+import { useGetEfoodQuery } from '../../services/api'
 
-import { getDescription } from '../../utils/textSlice';
+import { getDescription } from '../../utils/textSlice'
 
-import { ListCards, ButtonEdit } from './style';
-import Footer from '../../components/ui/Footer';
-import Header from '../../components/ui/Header';
-import Card from '../../components/elements/Card';
+import { ListCards, ButtonEdit } from './style'
+import Footer from '../../components/ui/Footer'
+import Header from '../../components/ui/Header'
+import Card from '../../components/elements/Card'
 
 function Home() {
-  const { data: intensRestaurantes } = useGetEfoodQuery();
+  const { data: intensRestaurantes } = useGetEfoodQuery()
 
   if (!intensRestaurantes) {
-    return <h3>carregando ...</h3>;
+    return <h3>carregando ...</h3>
   }
 
   return (
@@ -42,6 +42,6 @@ function Home() {
       </div>
       <Footer />
     </>
-  );
+  )
 }
-export default Home;
+export default Home

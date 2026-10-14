@@ -1,14 +1,14 @@
-import type { ReactNode } from 'react';
-import { CardContainer, CardTags, CardTitle, TagCustom, CardInfos } from './style';
+import type { ReactNode } from 'react'
+import { CardContainer, CardTags, CardTitle, TagCustom, CardInfos } from './style'
 
 export interface CardProps {
-  title?: string;
-  image?: string;
-  icon?: string;
-  nota?: number;
-  infos?: string[];
-  children: ReactNode;
-  className?: string;
+  title?: string
+  image?: string
+  icon?: string
+  nota?: number
+  infos?: string[]
+  children: ReactNode
+  className?: string
 }
 
 export default function Card({
@@ -18,7 +18,7 @@ export default function Card({
   nota,
   children,
   icon,
-  infos = [],
+  infos = []
 }: CardProps) {
   return (
     <CardContainer className={className}>
@@ -39,5 +39,5 @@ export default function Card({
         <span>{children}</span>
       </CardInfos>
     </CardContainer>
-  );
+  )
 }

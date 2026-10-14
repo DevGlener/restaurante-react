@@ -1,10 +1,10 @@
-import { FooterContainer, Redes, LogoFooter } from './style';
+import { FooterContainer, Redes, LogoFooter } from './style'
 
-import Logo from '../../../assets/images/logo.svg';
+import Logo from '../../../assets/images/logo.svg'
 
-import Facebook from '../../../assets/images/iconeFacebook.png';
-import Insta from '../../../assets/images/iconeInsta.png';
-import Twitter from '../../../assets/images/iconeTwitter.png';
+import Facebook from '../../../assets/images/iconeFacebook.png'
+import Insta from '../../../assets/images/iconeInsta.png'
+import Twitter from '../../../assets/images/iconeTwitter.png'
 
 export default function Footer() {
   return (
@@ -22,5 +22,5 @@ export default function Footer() {
         </p>
       </div>
     </FooterContainer>
-  );
+  )
 }

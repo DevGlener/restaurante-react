@@ -1,17 +1,17 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom'
 
-import type { RootReducer } from '../../store';
+import type { RootReducer } from '../../store'
 
-import { adicionar, abrirModal, fecharModal } from '../../store/reducers/carrinho';
-import { getDescription } from '../../utils/textSlice';
-import { useGetCardapioQuery } from '../../services/api';
+import { adicionar, abrirModal, fecharModal } from '../../store/reducers/carrinho'
+import { getDescription } from '../../utils/textSlice'
+import { useGetCardapioQuery } from '../../services/api'
 
-import Banner from '../../components/elements/Banner';
-import Footer from '../../components/ui/Footer';
-import Header from '../../components/ui/Header';
+import Banner from '../../components/elements/Banner'
+import Footer from '../../components/ui/Footer'
+import Header from '../../components/ui/Header'
 
-import close from '../../assets/images/close.png';
+import close from '../../assets/images/close.png'
 
 import {
   ProfileContainer,
@@ -21,28 +21,28 @@ import {
   Modal,
   ModalContainer,
   Fechar,
-  ContentModal,
-} from './style';
+  ContentModal
+} from './style'
 
 function Profile() {
-  const { id } = useParams();
-  const dispatch = useDispatch();
+  const { id } = useParams()
+  const dispatch = useDispatch()
 
-  const { data: restaurante } = useGetCardapioQuery(id!);
+  const { data: restaurante } = useGetCardapioQuery(id!)
 
   const { itens, modalEstaAberto, itemSelecionado } = useSelector(
-    (state: RootReducer) => state.carrinho,
-  );
+    (state: RootReducer) => state.carrinho
+  )
 
   const adicionarAoCarrinho = () => {
     if (itemSelecionado) {
-      dispatch(adicionar(itemSelecionado));
-      dispatch(fecharModal());
+      dispatch(adicionar(itemSelecionado))
+      dispatch(fecharModal())
     }
-  };
+  }
 
   if (!restaurante) {
-    return <h3>carregando ...</h3>;
+    return <h3>carregando ...</h3>
   }
 
   return (
@@ -86,7 +86,7 @@ function Profile() {
       )}
       <Footer />
     </ProfileContainer>
-  );
+  )
 }
 
-export default Profile;
+export default Profile

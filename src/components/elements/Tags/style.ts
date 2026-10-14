@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import type { TagProps } from '.';
-import colors from '../../../styles/colors';
+import styled from 'styled-components'
+import type { TagProps } from '.'
+import colors from '../../../styles/colors'
 
 export const TagContainer = styled.div<TagProps>`
   background-color: ${colors.orange};
@@ -11,4 +11,4 @@ export const TagContainer = styled.div<TagProps>`
   align-items: center;
   justify-content: center;
   padding: 0.375rem 0.25rem;
-`;
+`
