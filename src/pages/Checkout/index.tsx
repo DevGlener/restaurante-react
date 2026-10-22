@@ -2,61 +2,94 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-
+import { Navigate } from 'react-router-dom'
 import type { RootReducer } from '../../store'
 import { usePurchaseMutation } from '../../services/api'
-import { clear } from '../../store/reducers/carrinho'
-
+import { clear, setEtapa, close } from '../../store/reducers/carrinho'
 import { CheckoutContainer, InputGroup, Row, OrdemConcluida } from './style'
-import { Navigate } from 'react-router-dom'
-import { setEtapa, close } from '../../store/reducers/carrinho'
+
+type FormValues = {
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  numberAddress: string
+  complement: string
+  nameOnCard: string
+  cardNumber: string
+  cardCode: string
+  expiresMonth: string
+  expiresYear: string
+}
+
+const initialValues: FormValues = {
+  name: '',
+  address: '',
+  city: '',
+  postalCode: '',
+  numberAddress: '',
+  complement: '',
+  nameOnCard: '',
+  cardNumber: '',
+  cardCode: '',
+  expiresMonth: '',
+  expiresYear: ''
+}
+
+const camposEntrega = [
+  'name',
+  'address',
+  'city',
+  'postalCode',
+  'numberAddress',
+  'complement'
+] as const
 
 function Checkout() {
   const dispatch = useDispatch()
-  const { total } = useSelector((state: RootReducer) => state.carrinho)
+  const { total, itens } = useSelector((state: RootReducer) => state.carrinho)
   const [showCard, setShowCard] = useState<'mostrar' | 'naoMostrar'>('mostrar')
-  const [purchase, { isSuccess, data }] = usePurchaseMutation()
-  const { itens } = useSelector((state: RootReducer) => state.carrinho)
+  const [purchase, { isSuccess, isError, isLoading, data }] = usePurchaseMutation()
 
-  const form = useFormik({
-    initialValues: {
-      name: '',
-      address: '',
-      city: '',
-      postalCode: '',
-      numberAddress: '',
-      complement: '',
-      nameOnCard: '',
-      cardNumber: '',
-      cardCode: '',
-      expiresMonth: '',
-      expiresYear: ''
-    },
+  const form = useFormik<FormValues>({
+    initialValues,
     validationSchema: Yup.object({
       name: Yup.string()
-        .min(5, 'O campo deve ter pelo menos 5 caracteres')
+        .trim()
+        .min(5, 'Digite o nome completo (mín. 5 caracteres)')
         .required('Este campo é obrigatório'),
       address: Yup.string()
-        .min(5, 'O campo deve ter pelo menos 5 caracteres')
+        .trim()
+        .min(5, 'Digite um endereço válido (mín. 5 caracteres)')
         .required('Este campo é obrigatório'),
       city: Yup.string()
-        .min(5, 'O campo deve ter pelo menos 5 caracteres')
+        .trim()
+        .min(3, 'Digite uma cidade válida (mín. 3 caracteres)')
         .required('Este campo é obrigatório'),
       postalCode: Yup.string()
-        .min(9, 'O campo deve ter pelo menos 1 caracteres')
-        .max(9, 'O campo de ter 8 caracteres')
+        .matches(/^\d{5}-?\d{3}$/, 'CEP inválido. Use 00000-000 ou 00000000')
         .required('Este campo é obrigatório'),
       numberAddress: Yup.string()
-        .min(2, 'O campo deve ter pelo menos 2 caracteres')
+        .matches(/^\d+$/, 'Digite apenas números')
         .required('Este campo é obrigatório'),
-      complement: Yup.string()
-        .min(5, 'O campo deve ter pelo menos 5 caracteres')
+
+      complement: Yup.string().trim(),
+      nameOnCard: Yup.string()
+        .trim()
+        .min(3, 'Digite o nome impresso no cartão')
         .required('Este campo é obrigatório'),
-      nameOnCard: Yup.string().required('Este campo é obrigatório'),
-      cardNumber: Yup.string().required('Este campo é obrigatório'),
-      cardCode: Yup.string().required('Este campo é obrigatório'),
-      expiresMonth: Yup.string().required('Este campo é obrigatório'),
-      expiresYear: Yup.string().required('Este campo é obrigatório')
+      cardNumber: Yup.string()
+        .matches(/^\d{16}$/, 'O cartão deve ter 16 dígitos')
+        .required('Este campo é obrigatório'),
+      cardCode: Yup.string()
+        .matches(/^\d{3,4}$/, 'O CVV deve ter 3 ou 4 dígitos')
+        .required('Este campo é obrigatório'),
+      expiresMonth: Yup.string()
+        .matches(/^(0[1-9]|1[0-2])$/, 'Mês inválido (01 a 12)')
+        .required('Este campo é obrigatório'),
+      expiresYear: Yup.string()
+        .matches(/^\d{4}$/, 'Digite o ano com 4 dígitos (ex: 2030)')
+        .required('Este campo é obrigatório')
     }),
     onSubmit: (values) => {
       purchase({
@@ -77,7 +110,7 @@ function Checkout() {
             city: values.city,
             complement: values.complement,
             number: Number(values.numberAddress),
-            zipCode: Number(values.postalCode)
+            zipCode: Number(values.postalCode.replace(/\D/g, ''))
           }
         },
         products: itens.map((item) => ({
@@ -88,34 +121,77 @@ function Checkout() {
     }
   })
 
-  const checkInputHasError = (fieldName: string) => {
-    const estaMexido = fieldName in form.touched
-    const estaInvalido = fieldName in form.errors
-    const estaErrado = estaMexido && estaInvalido
+  const getError = (field: keyof FormValues) =>
+    form.touched[field] && form.errors[field] ? form.errors[field] : ''
 
-    return estaErrado
+  const isValid = (field: keyof FormValues) =>
+    !!form.touched[field] && !form.errors[field] && form.values[field].trim() !== ''
+
+  const handleContinue = async () => {
+    const errors = await form.validateForm()
+    const touched = camposEntrega.reduce((acc, f) => ({ ...acc, [f]: true }), { ...form.touched })
+    form.setTouched(touched, false)
+
+    const temErro = camposEntrega.some((f) => errors[f])
+    if (!temErro) setShowCard('naoMostrar')
+  }
+
+  const renderField = (opts: {
+    name: keyof FormValues
+    label: string
+    maxWidth?: string
+    placeholder?: string
+    inputMode?: 'text' | 'numeric'
+  }) => {
+    const { name, label, maxWidth, placeholder, inputMode = 'text' } = opts
+    const error = getError(name)
+    const valid = isValid(name)
+
+    return (
+      <InputGroup maxWidth={maxWidth}>
+        <label htmlFor={name}>{label}</label>
+        <input
+          id={name}
+          type="text"
+          name={name}
+          inputMode={inputMode}
+          placeholder={placeholder}
+          value={form.values[name]}
+          onChange={form.handleChange}
+          onBlur={form.handleBlur}
+          className={error ? 'error' : valid ? 'valid' : ''}
+          aria-invalid={!!error}
+          aria-describedby={error ? `${name}-error` : undefined}
+        />
+        {error && (
+          <small id={`${name}-error`} className="error-text" role="alert">
+            {error}
+          </small>
+        )}
+        {!error && valid && <small className="success-text">✓ Campo preenchido</small>}
+      </InputGroup>
+    )
   }
 
   useEffect(() => {
-    if (isSuccess) {
-      dispatch(clear())
-    }
+    if (isSuccess) dispatch(clear())
   }, [isSuccess, dispatch])
 
-  if (itens.length === 0 && !isSuccess) {
-    dispatch(close())
-    return (
-      <>
-        <Navigate to={'/'} />
-      </>
-    )
+  const carrinhoVazio = itens.length === 0 && !isSuccess
+
+  useEffect(() => {
+    if (carrinhoVazio) dispatch(close())
+  }, [carrinhoVazio, dispatch])
+
+  if (carrinhoVazio) {
+    return <Navigate to="/" />
   }
 
   return (
     <CheckoutContainer>
       {isSuccess ? (
         <OrdemConcluida>
-          <h2> Pedido Realizado - {data.orderId} </h2>
+          <h2> Pedido Realizado - {data?.orderId} </h2>
           <p>
             Estamos felizes em informar que seu pedido já está em processo de preparação e, em
             breve, será entregue no endereço fornecido.
@@ -136,99 +212,37 @@ function Checkout() {
             apetite!
           </p>
 
-          <button type="submit" onClick={() => dispatch(close())}>
-            concluir
+          <button type="button" onClick={() => dispatch(close())}>
+            Concluir
           </button>
         </OrdemConcluida>
       ) : (
-        <form onSubmit={form.handleSubmit}>
+        <form onSubmit={form.handleSubmit} noValidate>
           {showCard === 'mostrar' ? (
             <div>
               <h2 className="tiltles">Entrega</h2>
+              <Row>{renderField({ name: 'name', label: 'Quem irá receber' })}</Row>
+              <Row>{renderField({ name: 'address', label: 'Endereço' })}</Row>
+              <Row>{renderField({ name: 'city', label: 'Cidade' })}</Row>
               <Row>
-                <InputGroup>
-                  <label htmlFor="name">Quem irá receber</label>
-                  <input
-                    id="name"
-                    type="text"
-                    name="name"
-                    value={form.values.name}
-                    onChange={form.handleChange}
-                    onBlur={form.handleBlur}
-                    className={checkInputHasError('name') ? 'error' : ''}
-                  />
-                </InputGroup>
+                {renderField({
+                  name: 'postalCode',
+                  label: 'CEP',
+                  maxWidth: '154px',
+                  placeholder: '00000-000',
+                  inputMode: 'numeric'
+                })}
+                {renderField({
+                  name: 'numberAddress',
+                  label: 'Número',
+                  maxWidth: '154px',
+                  inputMode: 'numeric'
+                })}
               </Row>
-              <Row>
-                <InputGroup>
-                  <label htmlFor="address">Endereço</label>
-                  <input
-                    id="address"
-                    type="text"
-                    name="address"
-                    value={form.values.address}
-                    onChange={form.handleChange}
-                    onBlur={form.handleBlur}
-                    className={checkInputHasError('address') ? 'error' : ''}
-                  />
-                </InputGroup>
-              </Row>
-              <Row>
-                <InputGroup>
-                  <label htmlFor="city">Cidade</label>
-                  <input
-                    id="city"
-                    type="text"
-                    name="city"
-                    value={form.values.city}
-                    onChange={form.handleChange}
-                    onBlur={form.handleBlur}
-                    className={checkInputHasError('city') ? 'error' : ''}
-                  />
-                </InputGroup>
-              </Row>
-              <Row>
-                <InputGroup maxWidth="154px">
-                  <label htmlFor="postalCode">CEP</label>
-                  <input
-                    id="postalCode"
-                    type="text"
-                    name="postalCode"
-                    value={form.values.postalCode}
-                    onChange={form.handleChange}
-                    onBlur={form.handleBlur}
-                  />
-                </InputGroup>
-                <InputGroup maxWidth="154px">
-                  <label htmlFor="numberAddress">Número</label>
-                  <input
-                    id="numberAddress"
-                    type="text"
-                    name="numberAddress"
-                    value={form.values.numberAddress}
-                    onChange={form.handleChange}
-                    onBlur={form.handleBlur}
-                    className={checkInputHasError('numberAddress') ? 'error' : ''}
-                  />
-                </InputGroup>
-              </Row>
-              <Row>
-                <InputGroup>
-                  <label htmlFor="complement">Complemento (Opcional)</label>
-                  <input
-                    id="complement"
-                    type="text"
-                    name="complement"
-                    value={form.values.complement}
-                    onChange={form.handleChange}
-                    onBlur={form.handleBlur}
-                    className={checkInputHasError('complement') ? 'error' : ''}
-                  />
-                </InputGroup>
-              </Row>
+              <Row>{renderField({ name: 'complement', label: 'Complemento (Opcional)' })}</Row>
 
               <div className="butons">
-                <button type="button" onClick={() => setShowCard('naoMostrar')}>
+                <button type="button" onClick={handleContinue}>
                   Continuar com o pagamento
                 </button>
                 <button type="button" onClick={() => dispatch(setEtapa('carrinho'))}>
@@ -239,75 +253,48 @@ function Checkout() {
           ) : (
             <div>
               <h2 className="tiltles">Pagamento - Valor a pagar R$ {total.toFixed(2)}</h2>
+              <Row>{renderField({ name: 'nameOnCard', label: 'Nome do Cartão' })}</Row>
               <Row>
-                <InputGroup>
-                  <label htmlFor="nameOnCard">Nome do Cartão</label>
-                  <input
-                    id="nameOnCard"
-                    type="text"
-                    name="nameOnCard"
-                    value={form.values.nameOnCard}
-                    onChange={form.handleChange}
-                    onBlur={form.handleBlur}
-                    className={checkInputHasError('nameOnCard') ? 'error' : ''}
-                  />
-                </InputGroup>
+                {renderField({
+                  name: 'cardNumber',
+                  label: 'Número do Cartão',
+                  maxWidth: '228px',
+                  inputMode: 'numeric'
+                })}
+                {renderField({
+                  name: 'cardCode',
+                  label: 'CVV',
+                  maxWidth: '88px',
+                  inputMode: 'numeric'
+                })}
               </Row>
               <Row>
-                <InputGroup maxWidth="228px">
-                  <label htmlFor="cardNumber">Número do Cartão</label>
-                  <input
-                    id="cardNumber"
-                    type="text"
-                    name="cardNumber"
-                    value={form.values.cardNumber}
-                    onChange={form.handleChange}
-                    onBlur={form.handleBlur}
-                    className={checkInputHasError('cardNumber') ? 'error' : ''}
-                  />
-                </InputGroup>
-                <InputGroup maxWidth="88px">
-                  <label htmlFor="cardCode">CVV</label>
-                  <input
-                    id="cardCode"
-                    type="text"
-                    name="cardCode"
-                    value={form.values.cardCode}
-                    onChange={form.handleChange}
-                    onBlur={form.handleBlur}
-                    className={checkInputHasError('cardCode') ? 'error' : ''}
-                  />
-                </InputGroup>
-              </Row>
-              <Row>
-                <InputGroup maxWidth="154px">
-                  <label htmlFor="expiresMonth">Mês de Vencimento</label>
-                  <input
-                    id="expiresMonth"
-                    type="text"
-                    name="expiresMonth"
-                    value={form.values.expiresMonth}
-                    onChange={form.handleChange}
-                    onBlur={form.handleBlur}
-                    className={checkInputHasError('expiresMonth') ? 'error' : ''}
-                  />
-                </InputGroup>
-                <InputGroup maxWidth="154px">
-                  <label htmlFor="expiresYear">Ano de Vencimento</label>
-                  <input
-                    id="expiresYear"
-                    type="text"
-                    name="expiresYear"
-                    value={form.values.expiresYear}
-                    onChange={form.handleChange}
-                    onBlur={form.handleBlur}
-                    className={checkInputHasError('expiresYear') ? 'error' : ''}
-                  />
-                </InputGroup>
+                {renderField({
+                  name: 'expiresMonth',
+                  label: 'Mês de Vencimento',
+                  maxWidth: '154px',
+                  placeholder: 'MM',
+                  inputMode: 'numeric'
+                })}
+                {renderField({
+                  name: 'expiresYear',
+                  label: 'Ano de Vencimento',
+                  maxWidth: '154px',
+                  placeholder: 'AAAA',
+                  inputMode: 'numeric'
+                })}
               </Row>
 
+              {isError && (
+                <small className="error-text" role="alert">
+                  Não foi possível finalizar o pedido. Verifique os dados e tente novamente.
+                </small>
+              )}
+
               <div className="butons">
-                <button type="submit">Finalizar Pagamento</button>
+                <button type="submit" disabled={isLoading}>
+                  {isLoading ? 'Processando...' : 'Finalizar Pagamento'}
+                </button>
                 <button type="button" onClick={() => setShowCard('mostrar')}>
                   Voltar para Edição de Endereço
                 </button>
