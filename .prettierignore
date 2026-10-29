@@ -1,7 +1,11 @@
 node_modules
 dist
 build
+<<<<<<< HEAD
 coverage
 package-lock.json
 pnpm-lock.yaml
 yarn.lock
+=======
+coverage
+>>>>>>> 1d988e9f7bbff61903111731526d201e44d9e8b4

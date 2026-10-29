@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { createBrowserRouter, RouterProvider } from 'react-router'
 import { RootLayout } from './RootLayout'
 import Home from './Pages/Home'
@@ -37,3 +38,27 @@ const router = createBrowserRouter([
 export default function App() {
   return <RouterProvider router={router} />
 }
+=======
+import { BrowserRouter } from 'react-router-dom'
+
+import GlobalStyle from './styles/Globals'
+import Cart from './components/elements/Cart'
+
+import { Provider } from 'react-redux'
+import { store } from './store'
+import Rotas from './routes'
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Provider store={store}>
+        <GlobalStyle />
+        <Rotas />
+        <Cart />
+      </Provider>
+    </BrowserRouter>
+  )
+}
+
+export default App
+>>>>>>> 1d988e9f7bbff61903111731526d201e44d9e8b4
